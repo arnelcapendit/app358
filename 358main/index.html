@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIO 3-5-8 Prototype Version 4</title>
+    <script type='text/javascript' src='js/jquery-3.2.1.min.js'></script>
+    <script src="js/highcharts.js"></script>
+    <script src="js/modules/maps.js"></script>
+    <script src="https://code.highcharts.com/maps/modules/data.js"></script>
+    <script src="js/maps/world.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+  </head>
+  <body>
+  	<nav class="operations-navbar-main">
+  		<div class="operations-navbar-container">
+  			<div class="operations-navbar-left">
+  				<p class="operations-navbar-left-opt">Operations </p> 
+  				<p class="operations-navbar-left-hm"> / Heatmap</p>
+  			</div>
+  			<div class="operations-navbar-right">
+	  			<p class="operations-navbar-p">Heatmap</p> 
+	  			<p class="operations-navbar-p">History</p> 
+	  			<p class="operations-navbar-p">Security</p> 
+	  			<p class="operations-navbar-p">Service</p> 
+	  			<p class="operations-navbar-p">Automation</p>
+	  		</div>
+	  	</div>
+  	</nav>
+  	<div class="operations-container">
+		<div class="operations-filter-container">
+			<div class="operations-filter-block-container">
+				<label class="operations-filter-label">Portfolio</label>	
+				<div class="operations-filter-select"> 
+					<div class="selectBox tooltip" id="opt-portfolio-box">	
+						<select class="operations-filter-select" id="opt-portfolio">
+							<option>(All)</option>
+						</select><span class="tooltiptext">(All)</span>
+				    	<div class="overSelect"></div>
+					</div>
+					<div class="checkboxes" id="opt-portfolio-options"><label><input type="checkbox" value="all" checked="checked"/>(All)</label></div>
+				</div>
+			</div>
+			<div class="operations-filter-block-container">
+				<label class="operations-filter-label">Managing Director</label>	
+				<div class="operations-filter-select"> 
+					<div class="selectBox tooltip" id="opt-manDirector-box">	
+						<select class="operations-filter-select" id="opt-manDirector">
+							<option>(All)</option>
+						</select><span class="tooltiptext">(All)</span>
+				    	<div class="overSelect"></div>
+					</div>
+					<div class="checkboxes" id="opt-manDirector-options"><label><input type="checkbox" value="all" checked="checked"/>(All)</label></div>
+				</div>
+			</div>
+			<div class="operations-filter-block-container">
+				<label class="operations-filter-label">Lead</label>	
+				<div class="operations-filter-select"> 
+					<div class="selectBox tooltip" id="opt-lead-box">	
+						<select class="operations-filter-select" id="opt-lead">
+							<option>(All)</option>
+						</select><span class="tooltiptext">(All)</span>
+				    	<div class="overSelect"></div>
+					</div>
+					<div class="checkboxes" id="opt-lead-options"><label><input type="checkbox" value="all" checked="checked"/>(All)</label></div>
+				</div>
+			</div>
+			<div class="operations-filter-block-container">
+				<label class="operations-filter-label">Manager</label>	
+				<div class="operations-filter-select"> 
+					<div class="selectBox tooltip" id="opt-manager-box">	
+						<select class="operations-filter-select" id="opt-manager">
+							<option>(All)</option>
+						</select><span class="tooltiptext">(All)</span>
+				    	<div class="overSelect"></div>
+					</div>
+					<div class="checkboxes" id="opt-manager-options"><label><input type="checkbox" value="all" checked="checked"/>(All)</label></div>
+				</div>
+			</div>
+			<div class="operations-filter-block-container">
+				<label class="operations-filter-label">Service Tier</label>	
+				<div class="operations-filter-select"> 
+					<div class="selectBox tooltip" id="opt-servTier-box">	
+						<select class="operations-filter-select" id="opt-servTier">
+							<option>(All)</option>
+						</select><span class="tooltiptext">(All)</span>
+				    	<div class="overSelect"></div>
+					</div>
+					<div class="checkboxes" id="opt-servTier-options"><label><input type="checkbox" value="all" checked="checked"/>(All)</label></div>
+				</div>
+			</div>
+			<div class="operations-filter-block-container">
+				<label class="operations-filter-label">Application</label>
+				<div class="operations-filter-select"> 
+					<div class="selectBox tooltip" id="opt-appName-box">
+					    <select class="operations-filter-select" id="opt-appName">
+						    <option>(All)</option>
+					    </select><span class="tooltiptext">(All)</span>
+				    	<div class="overSelect"></div>
+					</div>
+					<div class="checkboxes" id="opt-appName-options"><label><input type="checkbox" value="all" checked="checked"/>(All)</label></div>
+				</div>
+			</div>
+		</div>
+		<div class="operations-panel-container">
+			<div class="operations-panel-header">
+				Metrics as of <div id="time" class="operations-panel-header-time"></div>
+			</div>
+		</div>
+		<div class="operations-scatter-panel-container">
+			<div class="operations-app-scatter-container">
+				<div class="operations-app-title">
+					<h5 class="operations-app-title-h5">Application Scatter Plot</h5>
+					<p class="operations-app-title-p">Mostly Used Pages</p>
+				</div>
+				<div class="operations-app-scatter" id="opt-scatter">
+					<div class="operations-loader">
+						<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
+			</div>
+			<div class="operations-scatter-panel-menu">
+				<div class="operations-scatter-panel-menu-container">
+					<div class="operations-scatter-panel-menu-block-container">
+						<label class="operations-scatter-panel-menu-label">Page Type</label>
+						<select class="operations-scatter-panel-menu-select" id="opt-pageType">
+							<option value="Mostly">Mostly Used</option>
+							<option value="Commonly">Commonly Used</option>
+							<option value="Rarely">Rarely Used</option>
+						</select>
+					</div>
+					<div class="operations-scatter-panel-menu-block-container">
+						<label class="operations-scatter-panel-menu-label">Aggregation</label>
+						<select class="operations-scatter-panel-menu-select" id="opt-aggregation">
+							<option value="90th Percentile">90th Percentile</option>
+							<option value="Maximum">Maximum</option>
+							<option value="Minimum">Minimum</option>
+							<option value="Average">Average</option>
+						</select>
+					</div>
+					<div class="operations-scatter-panel-menu-legendContainer">
+						<p class="operations-scatter-panel-menu-pTitle">Service Tier:</p>
+						<p class="operations-scatter-panel-menu-p"><i class="fa fa-square" aria-hidden="true"></i> Always On</p>
+						<p class="operations-scatter-panel-menu-p"><i class="fa fa-play" aria-hidden="true"></i> Nearly Always On</p>
+						<p class="operations-scatter-panel-menu-p"><i class="fa fa-circle" aria-hidden="true"></i> Standard</p>
+					</div>
+					<!-- <div class="operations-scatter-panel-menu-legendContainer">
+						<p class="operations-scatter-panel-menu-pTitle">Display As:</p>
+						<p class="operations-scatter-panel-menu-p"><i class="fa fa-area-chart" aria-hidden="true"></i> Chart View</p>
+						<p class="operations-scatter-panel-menu-p"><i class="fa fa-table" aria-hidden="true"></i> Table View</p>
+					</div> -->
+				</div>
+			</div>
+		</div>
+		<div class="operations-pageload-panel-container" id="opt-container">
+			<div class="operations-app-pageload-container">
+				<div class="operations-app-title">
+					<h5 class="operations-app-title-h5" id="hourly-app-title">Hourly 90th Percentile Pageload Overtime</h5>
+					<p class="operations-app-title-p">Mostly Used Pages</p>
+				</div>
+				<div class="operations-app-pageload" id="opt-pageLoad">
+					<div class="operations-loader" id="opt-pageLoad-loader">
+						<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="operations-pageload-panel-container" id="opt-container2">
+			<div class="operations-app-pageload-container">
+				<div class="operations-app-title">
+					<h5 class="operations-app-title-h5" id="daily-app-title">Daily 90th Percentile Pageload Overtime</h5>
+					<p class="operations-app-title-p">Mostly Used Pages</p>
+				</div>
+				<div class="operations-app-pageload" id="opt-pageLoad-week">
+					<div class="operations-loader" id="opt-pageLoad-week-loader">
+						<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="operations-map-scatter-panel-container">
+			<div class="operations-app-maps-container">
+				<div class="operations-app-title">
+					<h5 class="operations-app-title-h5">Visitor Population</h5>
+					<p class="operations-app-title-p">Mostly Used Pages</p>
+				</div>
+				<div class="operations-app-maps" id="opt-maps">
+					<div class="operations-loader" id="opt-maps-loader">
+						<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
+			</div>
+			<div class="operations-app-scatterPage-container">
+				<div class="operations-app-title">
+					<h5 class="operations-app-title-h5" id="page-app-title">90th Percentile Pageload Per Visit</h5>
+					<p class="operations-app-title-p">Mostly Used Pages</p>
+				</div>
+				<div class="operations-app-scatterPage" id="opt-scatterPage">
+					<div class="operations-loader">
+						<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
+						<span class="sr-only">Loading...</span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<script type='text/javascript' src='js/index.js'></script>
+  	</div>
+  </body>
+ </html>
